@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;0,900;1,300&display=swap');
+@font-face {
+    font-family: "Digital7";
+    src: url('./digital-7.mono.ttf');
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-size: small;
+    font-family: Roboto, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: rgb(90, 103, 116);
+    color: aliceblue;
+    align-items: center;
+    justify-content: center;
+    padding-top: 100px;
+}
+
+#calculator {
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    width: 350px;
+    height: 500px;
+    background-color: #254C99;
+    border: 1px solid black;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+#screen {
+    display: flex;
+    margin: 0 auto;
+    width: 90%;
+    height: 1.1em;
+    padding: 8px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color: darkgray;
+    color: black;
+    font-family: 'Digital7';
+    font-size: 5em;
+    align-items: center;
+    justify-content: right;
+    text-align: right;
+}
+
+#buttons {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+    height: 70%;
+    /* border: 1px solid black; */
+    margin: 0 auto;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+    width: auto;
+    height: 100%;
+    /* border: 1px solid black;  */
+}
+
+.button {
+    display: flex;
+    background-color: #F3EEDA;
+    border-radius: 8px;
+    padding: 8px;
+    width: auto;
+    flex-basis: 100%;
+    font-size: medium;
+    box-shadow: 1px 1px black;
+    border: 1px solid #000000;
+}
+
+.red {
+    background-color: #D15D5E;
+}
