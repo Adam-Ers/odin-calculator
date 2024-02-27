@@ -86,7 +86,10 @@ function toPercent() {
 
 function operationButton(operation) {
     if (isNaN(parseFloat(screen.textContent))) { return; }
-    equalsPressed = false;
+    if (equalsPressed) {
+        equalsPressed = false;
+        mode = '';
+    }
     displayResult = false;
     if (lastNum != undefined && mode != '')
     {
