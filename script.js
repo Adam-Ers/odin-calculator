@@ -5,6 +5,8 @@ const clearLongPressDelay = 500;
 let clearClicked = 0;
 let lastNum = undefined;
 
+document.designMode = "on"; // Mark this page as receiving keyboard input to prevent things like 'Backspace to Go Back'.
+
 function addNumber(num) {
     if (screen.textContent == '0')
     {
