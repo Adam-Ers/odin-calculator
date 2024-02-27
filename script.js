@@ -6,6 +6,7 @@ let clearClicked = 0;
 let lastNum = undefined;
 let mode = '';
 let showResult = false;
+let equalsPressed = false;
 
 // document.designMode = "on"; // Mark this page as receiving keyboard input to prevent things like 'Backspace to Go Back'.
 
@@ -13,8 +14,11 @@ function addNumber(num) {
     if (showResult) { 
         screen.textContent = '0'; 
         showResult = false;
-        if (mode == '') { 
-            lastNum = undefined; }
+        if (equalsPressed)
+        {
+            lastnum = undefined;
+            equalsPressed = false;
+        }
      }
     if (screen.textContent == '0')
     {
@@ -80,8 +84,11 @@ function toPercent() {
 
 function operationButton(operation) {
     if (isNaN(parseFloat(screen.textContent))) { return; }
-    if (lastNum != undefined)
+    equalsPressed = false;
+    displayResult = false;
+    if (lastNum != undefined && mode != '')
     {
+        mode = operation;
         lastNum = operate()
         if (lastNum == undefined) { mode = ''; return; }
     }
@@ -172,8 +179,9 @@ function parseKeyPress(event) {
             break;
         case 'enter':
         case '=':
-            operate();
+            lastNum = operate();
             mode = '';
+            equalsPressed = true;
             break;
     }
 }
@@ -191,8 +199,9 @@ function start() {
         element.addEventListener('click', e => { operationButton(e.target.id); });
     });
     document.querySelector('#operate').addEventListener('click', e => {
-        operate();
-        mode = '';
+        lastNum = operate();
+        mode = ''
+        equalsPressed = true;
     });
     document.addEventListener('keydown', parseKeyPress);
 }
