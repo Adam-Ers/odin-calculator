@@ -64,6 +64,28 @@ function toPercent() {
     screen.textContent = numString;
 }
 
+function parseKeyPress(event) {
+    let key = event.key;
+    let possibleNumber = parseInt(key);
+    if (possibleNumber.toString() != 'NaN') { addNumber(possibleNumber); }
+    switch (key.toLowerCase())
+    {
+        case 'backspace':
+            clearMouseDown(); 
+            clearNumber(); 
+            break;
+        case '%':
+            toPercent();
+            break;
+        case '.':
+            addDecimal();
+            break;
+        case '-':
+            toggleNegative();
+            break;
+    }
+}
+
 function start() {
     document.querySelectorAll('.number').forEach( element => {
         element.addEventListener('click', e => { addNumber(e.target.id); });
@@ -73,6 +95,7 @@ function start() {
     document.querySelector('#clear').addEventListener('mouseup', clearNumber);
     document.querySelector('#plusMinus').addEventListener('click', toggleNegative);
     document.querySelector('#percent').addEventListener('click', toPercent);
+    document.addEventListener('keydown', parseKeyPress);
 }
 
 window.onload = start
