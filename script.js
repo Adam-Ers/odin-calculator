@@ -71,6 +71,7 @@ function parseKeyPress(event) {
     switch (key.toLowerCase())
     {
         case 'backspace':
+            event.preventDefault();
             clearMouseDown(); 
             clearNumber(); 
             break;
