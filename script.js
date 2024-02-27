@@ -3,6 +3,7 @@ const screen = document.querySelector('#screen');
 const maxCharacters = 9;
 const clearLongPressDelay = 500;
 let clearClicked = 0;
+let lastNum = undefined;
 
 function addNumber(num) {
     if (screen.textContent == '0')
@@ -37,10 +38,14 @@ function clearNumber() {
     else {
         screen.textContent = screen.textContent.slice(0, screen.textContent.length - 1);
     }
+    if (screen.textContent === '-0' ||
+        screen.textContent === '-' ||
+        screen.textContent === '') { screen.textContent = '0'; }
 }
 
 function toggleNegative()
 {
+    if (screen.textContent === '0') { return; }
     let isNegative = screen.textContent.charAt(0) === '-'
     if (isNegative) {
         screen.textContent = screen.textContent.slice(1, screen.textContent.length);
