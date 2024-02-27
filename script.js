@@ -16,6 +16,7 @@ function addNumber(num) {
         showResult = false;
         if (equalsPressed)
         {
+            mode = '';
             lastnum = undefined;
             equalsPressed = false;
         }
@@ -180,7 +181,6 @@ function parseKeyPress(event) {
         case 'enter':
         case '=':
             lastNum = operate();
-            mode = '';
             equalsPressed = true;
             break;
     }
@@ -200,7 +200,6 @@ function start() {
     });
     document.querySelector('#operate').addEventListener('click', e => {
         lastNum = operate();
-        mode = ''
         equalsPressed = true;
     });
     document.addEventListener('keydown', parseKeyPress);
