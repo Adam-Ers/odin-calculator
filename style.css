@@ -82,6 +82,14 @@ body {
     border: 1px solid #000000;
 }
 
+.button:active {
+    background-color: #a19e8f;
+}
+
 .red {
     background-color: #D15D5E;
+}
+
+.red:active {
+    background-color: #8d3d3f;
 }
