@@ -137,7 +137,7 @@ function operate() {
             return;
     }
     let resultString = result.toString();
-    if (result > 9 * Math.pow(10, maxCharacters - 1))
+    if (Math.abs(result) > 9 * Math.pow(10, maxCharacters - 1))
     {
         resultString = 'TOO BIG';
     }
