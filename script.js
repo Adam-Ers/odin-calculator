@@ -4,6 +4,7 @@ const maxCharacters = 9;
 const clearLongPressDelay = 500;
 let clearClicked = 0;
 let lastNum = undefined;
+let lastOperationNum = undefined;
 let mode = '';
 let showResult = false;
 let equalsPressed = false;
@@ -103,6 +104,14 @@ function operationButton(operation) {
 
 function operate() {
     let currentNum = parseFloat(screen.textContent);
+    if (equalsPressed)
+    {
+        currentNum = lastOperationNum;
+    }
+    else
+    {
+        lastOperationNum = currentNum;
+    }
     let result = 0;
     switch (mode) {
         case 'add':
