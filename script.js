@@ -4,10 +4,18 @@ const maxCharacters = 9;
 const clearLongPressDelay = 500;
 let clearClicked = 0;
 let lastNum = undefined;
+let mode = '';
+let showResult = false;
 
-document.designMode = "on"; // Mark this page as receiving keyboard input to prevent things like 'Backspace to Go Back'.
+// document.designMode = "on"; // Mark this page as receiving keyboard input to prevent things like 'Backspace to Go Back'.
 
 function addNumber(num) {
+    if (showResult) { 
+        screen.textContent = '0'; 
+        showResult = false;
+        if (mode == '') { 
+            lastNum = undefined; }
+     }
     if (screen.textContent == '0')
     {
         screen.textContent = num;
@@ -36,7 +44,11 @@ function clearMouseDown() {
 
 function clearNumber() {
     if (screen.textContent === '0') { return; }
-    if (Date.now() - clearClicked >= clearLongPressDelay) { screen.textContent = '0'; }
+    if (Date.now() - clearClicked >= clearLongPressDelay) { 
+        screen.textContent = '0'; 
+        lastNum = undefined;
+        mode = '';
+    }
     else {
         screen.textContent = screen.textContent.slice(0, screen.textContent.length - 1);
     }
@@ -66,6 +78,61 @@ function toPercent() {
     screen.textContent = numString;
 }
 
+function operationButton(operation) {
+    if (isNaN(parseFloat(screen.textContent))) { return; }
+    if (lastNum != undefined)
+    {
+        lastNum = operate()
+        if (lastNum == undefined) { mode = ''; return; }
+    }
+    else
+    {
+        lastNum = parseFloat(screen.textContent);
+        screen.textContent = '0';
+    }
+    mode = operation;
+}
+
+function operate() {
+    let currentNum = parseFloat(screen.textContent);
+    let result = 0;
+    switch (mode) {
+        case 'add':
+            result = lastNum + currentNum;
+            break;
+        case 'subtract':
+            result = lastNum - currentNum;
+            break;
+        case 'multiply':
+            result = lastNum * currentNum;
+            break;
+        case 'divide':
+            if (currentNum == 0) { 
+                screen.textContent = 'lmao';
+                showResult = true;
+                return undefined; }
+            result = lastNum / currentNum;
+            break;
+        case '':
+            return;
+    }
+    let resultString = result.toString();
+    if (result > 9 * Math.pow(10, maxCharacters - 1))
+    {
+        resultString = 'TOO BIG';
+    }
+    else if (resultString.length > maxCharacters) {
+        resultString = resultString.slice(0, maxCharacters);
+        if (resultString.charAt(maxCharacters - 1) === '.')
+        {
+            resultString = resultString.slice(0, maxCharacters - 1)
+        }
+    }
+    screen.textContent = resultString;
+    showResult = true;
+    return result;
+}
+
 function parseKeyPress(event) {
     let key = event.key;
     let possibleNumber = parseInt(key);
@@ -77,14 +144,36 @@ function parseKeyPress(event) {
             clearMouseDown(); 
             clearNumber(); 
             break;
+        case 'delete':
+            clearClicked = 0;
+            clearNumber();
         case '%':
             toPercent();
             break;
         case '.':
             addDecimal();
             break;
-        case '-':
+        case 'n':
             toggleNegative();
+            break;
+        case '+':
+            operationButton('add');
+            break;
+        case '-':
+            operationButton('subtract');
+            break;
+        case '*':
+        case 'x':
+            operationButton('multiply');
+            break;
+        case '/':
+            event.preventDefault();
+            operationButton('divide');
+            break;
+        case 'enter':
+        case '=':
+            operate();
+            mode = '';
             break;
     }
 }
@@ -98,6 +187,13 @@ function start() {
     document.querySelector('#clear').addEventListener('mouseup', clearNumber);
     document.querySelector('#plusMinus').addEventListener('click', toggleNegative);
     document.querySelector('#percent').addEventListener('click', toPercent);
+    document.querySelectorAll('.operation').forEach( element => {
+        element.addEventListener('click', e => { operationButton(e.target.id); });
+    });
+    document.querySelector('#operate').addEventListener('click', e => {
+        operate();
+        mode = '';
+    });
     document.addEventListener('keydown', parseKeyPress);
 }
 
